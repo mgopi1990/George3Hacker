@@ -8,7 +8,7 @@
 #define MIN_N 100
 #define MAX_N 10000
 #define MIN_CHAR_SET_CHAR 'A'
-#define ALLOWED_CHAR_SET "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+#define ALLOWED_CHAR_SET "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 
 #define MAX_PWD_LEN ((MAX_N)/(MIN_CHAR_SET_CHAR))
 
