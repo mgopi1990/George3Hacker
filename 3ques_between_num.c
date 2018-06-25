@@ -19,6 +19,8 @@
 #define SYMBOL '?'
 #define SYMBOL_COUNT 3
 
+#define INP_BUFLEN 50
+
 int check_string(char string[], int sum, char symbol, int symbol_count);
 
 int check_string(char string[], int sum, char symbol, int symbol_count)
@@ -67,11 +69,22 @@ int check_string(char string[], int sum, char symbol, int symbol_count)
 
 int main()
 {
-    char input[50];
-    while (input[0] != '\n' || input[0] != '\0') 
+    char input[INP_BUFLEN];
+    int i = 0;
+
+    while (1)
     {
-        scanf("%s", &input);
-        printf ("\r%s => %s\r\n", input, (check_string(input, SUM, SYMBOL, SYMBOL_COUNT) == 0)?"true":"false");
-    }
+        fgets(input, INP_BUFLEN, stdin);
+
+        /* lazy chomp */
+        for (i = 0; input[i] != '\0'; i++);
+        input[i-1] = '\0';
+
+        if (input[0] == '\0')
+            break;
+
+        printf ("\r%s => %s\r\n", input, 
+                 (!check_string(input, SUM, SYMBOL, SYMBOL_COUNT))?"true":"false");
+    }     
     return 0;
 }
