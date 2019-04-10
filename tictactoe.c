@@ -1,5 +1,7 @@
 #include <stdio.h>
 
+#define MAX_MOVES 9 9 9 9 9 9 9 9 9 
+
 enum 
 {
 	TOP_LEFT,    TOP_MID,    TOP_RIGHT,
@@ -34,6 +36,7 @@ enum
 
 typedef struct think_
 {
+	char move_history[];
 	char move;
 	char nchilds;
 	char status;
@@ -64,11 +67,17 @@ think* think_malloc(int nchild)
 think* construct_think_tree()
 {
 	think *root;
-	int i = 0;
-	for (i = 0; i < TIC_TOC_SQUARES; i++)
-	{
+	qnode element;
+	int i;	
+	char *board;
+	char board[10] = {
+			' ', ' ', ' ',
+			' ', ' ', ' ',
+			' ', ' ', ' ', 
+			'\0'
+			}; /* Oja board */
+
 	
-	}
 }
 
 int destroy_think_tree(think **head)
