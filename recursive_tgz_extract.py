@@ -40,35 +40,35 @@ def recursive_archive(cwd_path, new_path):
         if (filename.endswith(extn)):
           folder_name = filename[0:(-1 * len(extn))]
 
-        if (extn == '.gz'):
-          ## we handle both .gz and .tar.gz
-          if (filename.endswith('.tar.gz')):
-            continue
+          if (extn == '.gz'):
+            ## we handle both .gz and .tar.gz
+            if (filename.endswith('.tar.gz')):
+              continue
 
-          ## To handle 0size file. Just delete them
-          if (os.path.getsize(filename) == 0):
+            ## To handle 0size file. Just delete them
+            if (os.path.getsize(filename) == 0):
+              os.unlink(filename)
+              print ('# del 0 byte file ' + filename)
+              continue
+
+            os.system(archive_detail[extn]['cmd'].format(filename))
+            print (archive_detail[extn]['cmd'].format(filename))
+
+            recursive_archive (new_path, os.path.join(new_path, folder_name))
+
+          else:
+            ## Handles other types, like, tar.gz, tgz etc..
+            ## Just create a new folder with tgz name and extract there
+            ## Finally del the filename
+            os.mkdir(folder_name)
+            print ('mkdir ' + folder_name)
+            os.system(archive_detail[extn]['cmd'].format(filename, folder_name))
+            print (archive_detail[extn]['cmd'].format(filename, folder_name))
             os.unlink(filename)
-            print ('# del 0 byte file ' + filename)
-            continue
+            print ('rm ' + filename)
 
-          os.system(archive_detail[extn]['cmd'].format(filename))
-          print (archive_detail[extn]['cmd'].format(filename))
-
-          recursive_archive (new_path, os.path.join(new_path, folder_name))
-
-        else:
-          ## Handles other types, like, tar.gz, tgz etc..
-          ## Just create a new folder with tgz name and extract there
-          ## Finally del the filename
-          os.mkdir(folder_name)
-          print ('mkdir ' + folder_name)
-          os.system(archive_detail[extn]['cmd'].format(filename, folder_name))
-          print (archive_detail[extn]['cmd'].format(filename, folder_name))
-          os.unlink(filename)
-          print ('rm ' + filename)
-
-          recursive_archive (new_path, os.path.join(new_path, folder_name))
-          continue
+            recursive_archive (new_path, os.path.join(new_path, folder_name))
+      continue
 
     ## Handle directory
     ## Just initiate a recursion for each folder we come across
