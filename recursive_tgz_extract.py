@@ -77,9 +77,9 @@ def recursive_archive(cwd_path, new_path):
       #print('HERE' + temp_path)
       
       recursive_archive (new_path, temp_path)
-
-      os.chdir(cwd_path)
-      print ('cd ' + cwd_path)
+    
+  os.chdir(cwd_path)
+  print ('cd ' + cwd_path)
 
 ## start of main()
 if __name__ == "__main__":
