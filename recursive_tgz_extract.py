@@ -21,6 +21,9 @@ def recursive_archive(cwd_path, new_path):
   if (os.path.isfile(new_path) or os.path.islink(new_path)):
     return
 
+  ## sometimes chdir fails due to permission error
+  os.chmod(new_path, 0777)
+
   ## Lets get to this folder
   os.chdir(new_path)
   print ('cd ' + new_path)
