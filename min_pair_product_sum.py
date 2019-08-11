@@ -62,7 +62,7 @@ def prepare_list(num_list):
 				i += 2
 				length -= 1
 
-	print (str(num_list))
+	# print (str(num_list))
 	return num_list
 
 def min_sum_of_product_of_adjacent(num_list):
