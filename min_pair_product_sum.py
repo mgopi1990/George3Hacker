@@ -21,12 +21,19 @@ The expected output for the array
 [40, 25, 10, 5, 1] is 225
 '''
 
+## Input: [40, 25, 10, 5, 1]
+## Output: 1305
+## Finds (40*25) + (25*10) + (10*5) + (5*1)
 def sum_of_product_of_adjacent(num_list):
 	sum_of_product = 0
 	for i in range(0,len(num_list)-1):
 		sum_of_product += num_list[i] * num_list[i+1]
 	return sum_of_product
 
+## We move the large numbers to the extremes
+## Then we fill small numbers between the large numbers
+## Input: [40, 25, 10, 5, 1]
+## Output: [40, 1, 10, 5, 25]
 def prepare_list(num_list):
 	## sort the numbers in reverse
 	num_list.sort(reverse=True)
