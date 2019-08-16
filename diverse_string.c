@@ -35,8 +35,79 @@
 
 #include <stdio.h>
 
+#define MAX_N	10
+#define DIV_N	2
+
+int string_diverse (int A, int B, int C, char *str);
+
+#ifdef UNIT_TEST
+ #define PASS 1
+ #define FAIL 0
+ 
+ int unit_test (int (*test_func)(int, int, int, char *));
+#endif
+
 int main()
 {
-	
+
+#ifdef UNIT_TEST
+#endif 
 	return 0;
 }
+
+#ifdef UNIT_TEST
+int unit_test_str (int A, int B, int C, char *str)
+{
+	int a, b, c, i;
+
+	for (i = 0; str[i] != '\0'; i++)
+	{
+		if (str[i] == 'A')
+			a++;
+		else if (str[i] == 'B')
+			b++;
+		else if (str[i] == 'C')
+			c++;
+		else
+			return FAIL;
+	}
+
+	if (a > A)
+		return FAIL;
+
+	if (b > B)
+		return FAIL;
+
+	if (c > C)
+		return FAIL;
+
+	
+
+	return PASS;
+}
+
+int unit_test (int (*test_func)(int, int, int, char *))
+{
+	int i, j, k, result, uno;
+	char str[MAX_N * 3 +1];
+
+	uno = 1;
+	for (i = 0; i < MAX_N; i++)
+	{
+		for (j = 0; i < MAX_N; i++)
+		{
+			for (k = 0; k < MAX_N; k++)
+			{
+				test_func (i, j, k, str);	
+				result = unit_test_str (i, j, k, str);	
+
+				printf ("\r%d,%d,%d,%d,%s,%s\r\n", 
+						uno++, i, j, k, str, 
+						result?"PASS":"FAIL");
+
+			}
+		}
+	}
+}
+
+#endif
