@@ -139,7 +139,7 @@ def draw_another_star(length):
   turtle.back(stick_len)
   turtle.right(turn_deg)
   turtle.forward(stick_len)
-
+  turtle.hideturtle()
 
 ## start of main program
 if __name__ == "__main__":
