@@ -84,8 +84,9 @@ testcase tc[] = {
  {20, "abcdeca", "a*c?", true},
  {21, "bbbbbbbabbaabbabbbbaaabbabbabaaabbababbbabbbabaaabaab", 
  		"b*b*ab**ba*b**b***bba", false},
- {22, "abbabaaabbabbaababbabbbbbabbbabbbabaaaaababababbbabababaabbababaabbbbbbaaaabababbbaabbbbaabbbbababababbaabbaababaabbbababababbbbaaabbbbbabaaaabbababbbbaababaabbababbbbbababbbabaaaaaaaabbbbbaabaaababaaaabb",
-	  "**aa*****ba*a*bb**aa*ab****a*aaaaaa***a*aaaa**bbabb*b*b**aaaaaaaaa*a********ba*bbb***a*ba*bb*bb**a*b*bb", true}
+ {22, "mississippi", "m??*ss*?i*pi", false},
+ {23, "abbabaaabbabbaababbabbbbbabbbabbbabaaaaababababbbabababaabbababaabbbbbbaaaabababbbaabbbbaabbbbababababbaabbaababaabbbababababbbbaaabbbbbabaaaabbababbbbaababaabbababbbbbababbbabaaaaaaaabbbbbaabaaababaaaabb",
+	  "**aa*****ba*a*bb**aa*ab****a*aaaaaa***a*aaaa**bbabb*b*b**aaaaaaaaa*a********ba*bbb***a*ba*bb*bb**a*b*bb", true},
 };
 
 bool isMatch(char *s, char *p);
@@ -108,7 +109,7 @@ int main()
 
 bool isMatch(char *s, char *p)
 {
-	int i = 0, j = 0, k, l, match;
+	int i = 0, j = 0, l, match;
 
 	while(s[i] != '\0')
 	{
@@ -120,25 +121,27 @@ bool isMatch(char *s, char *p)
 				j++;
 			}
 
-			for (k = 0; s[i+k] != '\0'; k++)
+			do 
 			{
 				match = 1;
 				for (l = 0; p[j+l+1] != '\0' && p[j+l+1] != '*'; l++)
 				{
-					if ((s[i+k+l] != p[j+l+1]) && (p[j+l+1] != '?'))
+					if ((s[i+l] != p[j+l+1]) && (p[j+l+1] != '?'))
 					{
 						match = 0;
 						break;
 					}
 				}
 
-				if (match && isMatch (&s[i+k+l], &p[j+l+1]))
+				if (match && isMatch (&s[i+l], &p[j+l+1]))
 				{
 					return true;
 				}
-			}
-			return false;
 
+			/* exit check to allow processing '\0' as well */ 
+			}while (s[i++] != '\0');
+			/* do not cross beyond */
+			i--;
 		}
 		else if ((s[i] == p[j]) || (p[j] == '?'))
 		{
