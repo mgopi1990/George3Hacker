@@ -114,23 +114,31 @@ bool isMatch(char *s, char *p)
 	{
 		if (p[j] == '*')
 		{
-			if (isMatch(&s[i], &p[j+1]))
+			/* burn any stray * */
+			while(p[j+1] == '*')
 			{
-				/* incase * didnt pick any char */
-				return true;
+				j++;
 			}
-			else if (isMatch(&s[i+1], &p[j]))
+
+			for (k = 0; s[i+k] != '\0'; k++)
 			{
-				/* * consumed one char already */
-				return true;
+				match = 1;
+				for (l = 0; p[j+l+1] != '\0' && p[j+l+1] != '*'; l++)
+				{
+					if ((s[i+k+l] != p[j+l+1]) && (p[j+l+1] != '?'))
+					{
+						match = 0;
+						break;
+					}
+				}
+
+				if (match && isMatch (&s[i+k+l], &p[j+l+1]))
+				{
+					return true;
+				}
 			}
-			else
-			{
-				/* the recursive call would handle further parsing 
-				 * if it didnt pass anywhere, then its failure for sure
-				 */
-				return false;
-			}
+			return false;
+
 		}
 		else if ((s[i] == p[j]) || (p[j] == '?'))
 		{
