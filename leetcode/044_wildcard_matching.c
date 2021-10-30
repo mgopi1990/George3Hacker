@@ -86,7 +86,7 @@ testcase tc[] = {
  		"b*b*ab**ba*b**b***bba", false},
  {22, "mississippi", "m??*ss*?i*pi", false},
  {23, "abbabaaabbabbaababbabbbbbabbbabbbabaaaaababababbbabababaabbababaabbbbbbaaaabababbbaabbbbaabbbbababababbaabbaababaabbbababababbbbaaabbbbbabaaaabbababbbbaababaabbababbbbbababbbabaaaaaaaabbbbbaabaaababaaaabb",
-	  "**aa*****ba*a*bb**aa*ab****a*aaaaaa***a*aaaa**bbabb*b*b**aaaaaaaaa*a********ba*bbb***a*ba*bb*bb**a*b*bb", true},
+	  "**aa*****ba*a*bb**aa*ab****a*aaaaaa***a*aaaa**bbabb*b*b**aaaaaaaaa*a********ba*bbb***a*ba*bb*bb**a*b*bb", false},
 };
 
 bool isMatch(char *s, char *p);
@@ -123,14 +123,18 @@ bool isMatch(char *s, char *p)
 
 			do 
 			{
-				match = 1;
-				for (l = 0; p[j+l+1] != '\0' && p[j+l+1] != '*'; l++)
+				match = 0;
+				for (l = 0; ((p[j+l+1] != '\0') && (p[j+l+1] != '*') 
+										&& (s[i+l] != '\0')); l++)
 				{
 					if ((s[i+l] != p[j+l+1]) && (p[j+l+1] != '?'))
 					{
 						match = 0;
 						break;
 					}
+
+					/* atleast one char matched */
+					match = 1;
 				}
 
 				if (match && isMatch (&s[i+l], &p[j+l+1]))
@@ -142,6 +146,9 @@ bool isMatch(char *s, char *p)
 			}while (s[i++] != '\0');
 			/* do not cross beyond */
 			i--;
+
+			/* consume the * */
+			j++;
 		}
 		else if ((s[i] == p[j]) || (p[j] == '?'))
 		{
