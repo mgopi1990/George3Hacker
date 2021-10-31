@@ -90,6 +90,7 @@ testcase tc[] = {
 };
 
 bool isMatch(char *s, char *p);
+int MatchWildStr (char *s, char *p);
 
 int main()
 {
@@ -107,75 +108,70 @@ int main()
 	return 0;
 }
 
+/* returns -1 if not matching 
+ * returns number of matching char if match is found */
+int MatchWildStr (char *s, char *p)
+{
+	int i;
+
+	for (i = 0; (p[i] != '\0') && (p[i] != '*'); i++)
+	{
+		if ((s[i] != p[i]) && (p[i] != '?' || s[i] == '\0'))
+		{
+			/* string didnt match */
+			return -1;
+		}
+	}
+
+	if (p[i] == '\0' && s[i] != '\0')
+		return -1;
+
+	/* returns number of matching chars */
+	return i;
+}
+
 bool isMatch(char *s, char *p)
 {
-	int i = 0, j = 0, l, match;
+	int i, j, k, l;
 
-	while(s[i] != '\0')
+	/* Match string from the beginning */
+	i = MatchWildStr (s, p);
+	j = 0;
+	if (i == -1)
+		return false;
+	
+	j = i;
+	while (s[i] != '\0')
 	{
-		if (p[j] == '*')
+		/* burn repeated * */
+		while (p[j] == '*')
+			j++;
+
+		/* assume * consumes k characters */
+		for (k = 0; (l = MatchWildStr(&s[i+k], &p[j])) == -1; k++)
 		{
-			/* burn any stray * */
-			while(p[j+1] == '*')
+			if (s[i+k] == '\0')
 			{
-				j++;
+				/* we have checked the whole s, but no luck */
+				return false;
 			}
-
-			do 
-			{
-				match = 0;
-				for (l = 0; ((p[j+l+1] != '\0') && (p[j+l+1] != '*') 
-										&& (s[i+l] != '\0')); l++)
-				{
-					if ((s[i+l] != p[j+l+1]) && (p[j+l+1] != '?'))
-					{
-						match = 0;
-						break;
-					}
-
-					/* atleast one char matched */
-					match = 1;
-				}
-
-				if (match && isMatch (&s[i+l], &p[j+l+1]))
-				{
-					return true;
-				}
-
-			/* exit check to allow processing '\0' as well */ 
-			}while (s[i++] != '\0');
-			/* do not cross beyond */
-			i--;
-
-			/* consume the * */
-			j++;
 		}
-		else if ((s[i] == p[j]) || (p[j] == '?'))
-		{
-			i++;
-			j++;
-			continue;
-		}
-		else 
-		{
-			/* pattern didnt match */
-			return false;
-		}
+
+		i += k + l;
+		j += l;
 	}
 
-	/* burn any stray * */
-	while(p[j] == '*')
-	{
+	/* burn all * */
+	while (p[j] == '*')
 		j++;
-	}
-
-	if ((s[i] == '\0') && (p[j] == '\0')) 
-	{
-		/* both the string and pattern are exhausted */
+	
+	if (s[i] == '\0' && p[j] == '\0')
 		return true;
-	}
 
-	/* pattern didnt match */
+	/* last char is *; would match s till end*/
+	if (p[j-1] == '*' && p[j] == '\0')
+		return true;
+	
 	return false;
 }
 
