@@ -1,7 +1,17 @@
 #!/usr/bin/env python3
 
 '''
+Used to detect duplicates between various revisions.
+Like the below script,
 find . -type f -print0 | xargs -0 -I "{}" sh -c 'md5sum "{}" |  cut -f1 -d " " | tr "\n" " "; du -h "{}"' | sort -h -k2 -r | uniq -w32 --all-repeated=separate
+
+Consider we have several folders, say TRY7, TRY6 ... TRY1.
+Each of which is taken backup several times with TRY7 being the latest.
+Then all the duplicates in TRY6 ... TRY1 would be fetched and removed.
+This would not touch any dups in TRY7 to be safe.
+
+This also wont delete any files. But would generate SUMMARY and DEL files,
+which could be run to take appropriate action.
 '''
 
 ## high priority to low
@@ -35,6 +45,7 @@ def load_checksums():
  #print (filelist_summary_dict)
  return filelist_summary_dict
 
+
 def print_filelist_delete (filelist_summary_dict, outfile):
  fp = open (outfile, 'w')
  if fp:
@@ -47,6 +58,7 @@ def print_filelist_delete (filelist_summary_dict, outfile):
       fp.write (' rm -rf \'{}\'\n'.format(delfile))
  fp.close()
 
+
 def print_filelist_summary (filelist_summary_dict, outfile):
  fp = open (outfile, 'w')
  if fp:
@@ -57,7 +69,7 @@ def print_filelist_summary (filelist_summary_dict, outfile):
  fp.close()
 
 
-
+### start of main ###
 filelist_summary_dict = load_checksums()
 print_filelist_summary (filelist_summary_dict, 'summary.txt')
 print_filelist_delete (filelist_summary_dict, 'del.txt')
