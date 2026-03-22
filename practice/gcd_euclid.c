@@ -6,6 +6,7 @@
  *  gcd(m, n) = gcd(n, m mod n)
  *
  *  eg: ./a.out 24 60 
+ *  ./a.out 31415 14142
  */
 
 #include <stdio.h>
@@ -15,14 +16,7 @@ int gcd_euclid (int m, int n)
 {
 	int temp, r;
 
-	if (m <= n)
-	{
-		/* swap so m is always big */
-		temp = m;
-		m = n;
-		n = temp;
-	}
-
+	/* works even n > m */
 	while (n > 0)
 	{
 		r = m % n;
