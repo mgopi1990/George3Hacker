@@ -14,7 +14,7 @@ int main()
 	struct sockaddr_in ser, cli;
 	FILE *fp;
 
-	if ((sd = socket (AF_INET, SOCK_STREAM< IPPROTO_TCP)) == -1)
+	if ((sd = socket (AF_INET, SOCK_STREAM, IPPROTO_TCP)) == -1)
 	{
 		printf ("\r Error in creating socket\r\n");
 		return 0;
