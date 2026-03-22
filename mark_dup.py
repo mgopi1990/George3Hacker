@@ -14,10 +14,17 @@ This also wont delete any files. But would generate SUMMARY and DEL files,
 which could be run to take appropriate action.
 '''
 
+import os
+import sys
+
+
 ## high priority to low
 FOLDERS = ["TRY7", "TRY6", "TRY5", "TRY4", "TRY3", "TRY2", "TRY1"]
 MD5SUM_FILE = "files.txt"
 
+def load_folder_list_from_args():
+ ''' ToDo: modify to get inputs from command line '''
+ pass
 
 
 def load_checksums():
