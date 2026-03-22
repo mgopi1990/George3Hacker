@@ -41,23 +41,21 @@ Constraints:
 int maxProfit(int* prices, int pricesSize);
 
 int maxProfit(int* prices, int pricesSize) {
-    int low, high, i, j;
-    low = i = 0;
-    high = j = pricesSize - 1;
-    while (i < j) {
-        if (prices[i] < prices[low])
-            low = i;
-        if (prices[j] > prices[high])
-            high = j;
-        i++;
-        j--;
-    }
-    return (prices[high]-prices[low]);
+	int profit = 0, i;
+	
+	for (i = 0; i < pricesSize-1; i++)
+	{
+		if (prices[i+1] > prices[i]) {
+			profit += prices[i+1] - prices[i];
+		}
+	}
+
+    return profit;
 }
 
 int main() {
-	int prices[] = {7, 1, 5, 3, 6, 4};
-	printf ("\r profit: %d\r\n", maxProfit (prices, sizeof(prices)));
+	int prices[] = {7, 6, 4, 3, 1};
+	printf ("\r profit: %d\r\n", maxProfit (prices, sizeof(prices)/sizeof(prices[0])));
 	return 0;
 }
 
