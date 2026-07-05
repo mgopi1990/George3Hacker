@@ -22,6 +22,10 @@ import sys
 FOLDERS = ["TRY7", "TRY6", "TRY5", "TRY4", "TRY3", "TRY2", "TRY1"]
 MD5SUM_FILE = "files.txt"
 
+SUMMARY_FILE = 'summary.txt'
+DEL_FILE = 'del.txt'
+LOST_FILE = 'lost.txt'
+
 def load_folder_list_from_args():
  ''' ToDo: modify to get inputs from command line '''
  pass
@@ -78,7 +82,6 @@ def print_filelist_summary (filelist_summary_dict, outfile):
 
 ### start of main ###
 filelist_summary_dict = load_checksums()
-print_filelist_summary (filelist_summary_dict, 'summary.txt')
-print_filelist_delete (filelist_summary_dict, 'del.txt')
-
+print_filelist_summary (filelist_summary_dict, SUMMARY_FILE)
+print_filelist_delete (filelist_summary_dict, DEL_FILE)
 
