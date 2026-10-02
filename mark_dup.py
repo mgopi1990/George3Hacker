@@ -22,6 +22,13 @@ All these folders need to have MD5SUM_FILE to work properly
 
 '''
 
+
+'''
+ToDo: use imagehash for images
+ToDo: split deletion output script based on the parent path; 
+      useful incase multiple harddisks are involved
+'''
+
 import os
 import sys
 
